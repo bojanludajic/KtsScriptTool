@@ -20,6 +20,9 @@ class CodeViewModel {
     var isRunning by mutableStateOf(false)
         private set
 
+    var hasErrors by mutableStateOf(false)
+        private set
+
     private val viewModelScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     fun onCodeChange(newCode: String) {
@@ -27,6 +30,8 @@ class CodeViewModel {
     }
 
     fun runCode() {
+        if(isRunning) return
+
         isRunning = true
         result = ""
 
@@ -44,10 +49,15 @@ class CodeViewModel {
                     lines.forEach { line ->
                         outputBuilder.appendLine(line)
                         result = outputBuilder.toString()
+
+                        if (line.contains("error") || line.contains("exception")) {
+                            hasErrors = true
+                        }
                     }
                 }
             } catch(e: Exception) {
                 result += "\nError: ${e.message}"
+                hasErrors = true
             } finally {
                 isRunning = false
             }

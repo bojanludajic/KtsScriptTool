@@ -26,7 +26,8 @@ fun MainScreen(
             onRun = { codeViewModel.runCode() },
             modifier = Modifier
                 .weight(0.1f),
-            isRunning = codeViewModel.isRunning
+            isRunning = codeViewModel.isRunning,
+            hasErrors = codeViewModel.hasErrors
         )
 
         ExecutionConsole(
