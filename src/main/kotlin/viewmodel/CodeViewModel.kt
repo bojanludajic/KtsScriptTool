@@ -3,6 +3,9 @@ package viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import kotlin.io.path.absolutePathString
+import kotlin.io.path.writeText
+import kotlin.io.path.writer
 
 class CodeViewModel {
     var code by mutableStateOf("")
@@ -16,8 +19,12 @@ class CodeViewModel {
     }
 
     fun runCode() {
-        //implement logic here!!!!
-        result += code + "\n"
-        result += "ran" + "\n"
+        val file = kotlin.io.path.createTempFile("script", ".kts")
+        file.writeText(code)
+        val process = ProcessBuilder("kotlinc", "-script", file.absolutePathString())
+            .redirectErrorStream(true)
+            .start()
+
+        result = process.inputStream.bufferedReader().readText()
     }
 }
