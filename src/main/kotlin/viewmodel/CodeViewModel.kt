@@ -23,6 +23,8 @@ class CodeViewModel {
     var hasErrors by mutableStateOf(false)
         private set
 
+    var errorLine by mutableStateOf<Int?>(null)
+
     private val viewModelScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     fun onCodeChange(newCode: String) {
@@ -33,6 +35,7 @@ class CodeViewModel {
         if(isRunning) return
 
         isRunning = true
+        hasErrors = false
         result = ""
 
         viewModelScope.launch {
@@ -52,9 +55,16 @@ class CodeViewModel {
 
                         if (line.contains("error") || line.contains("exception")) {
                             hasErrors = true
+                            val regex = Regex(""".*\.kts:(\d+):.*""")
+                            val match = regex.find(line)
+
+                            val lineNumber = match?.groups?.get(1)?.value?.toIntOrNull()
+                            println("error at line ${lineNumber}")
                         }
                     }
                 }
+
+                process.waitFor()
             } catch(e: Exception) {
                 result += "\nError: ${e.message}"
                 hasErrors = true
