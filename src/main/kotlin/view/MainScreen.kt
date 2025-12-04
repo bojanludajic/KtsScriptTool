@@ -6,13 +6,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import viewmodel.CodeViewModel
 
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    codeViewModel: CodeViewModel
+) {
     // move to vm later
-    var code by remember { mutableStateOf("") }
-    var result by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -20,21 +21,19 @@ fun MainScreen() {
             .padding(16.dp)
     ) {
         CodeEditor(
-            code,
-            { code = it },
+            code = codeViewModel.code,
+            onCodeChange = { codeViewModel.onCodeChange(it) },
             modifier = Modifier.weight(0.6f)
         )
 
         ExecutionBar(
-            onRun = {
-                result = "Bla bla"
-            },
+            onRun = { codeViewModel.runCode() },
             modifier = Modifier
                 .weight(0.1f)
         )
 
         ExecutionConsole(
-            result = result,
+            result = codeViewModel.result,
             modifier = Modifier.weight(0.3f)
         )
     }
