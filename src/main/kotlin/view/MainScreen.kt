@@ -1,8 +1,6 @@
 package view
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -13,8 +11,6 @@ import viewmodel.CodeViewModel
 fun MainScreen(
     codeViewModel: CodeViewModel
 ) {
-    // move to vm later
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -29,7 +25,8 @@ fun MainScreen(
         ExecutionBar(
             onRun = { codeViewModel.runCode() },
             modifier = Modifier
-                .weight(0.1f)
+                .weight(0.1f),
+            isRunning = codeViewModel.isRunning
         )
 
         ExecutionConsole(
