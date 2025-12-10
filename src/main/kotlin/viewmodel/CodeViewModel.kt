@@ -23,8 +23,6 @@ class CodeViewModel {
     var hasErrors by mutableStateOf(false)
         private set
 
-    var errorLine by mutableStateOf<Int?>(null)
-
     private val viewModelScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     fun onCodeChange(newCode: String) {

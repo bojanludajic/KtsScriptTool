@@ -1,9 +1,10 @@
 package view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import view.theme.Colors
 import viewmodel.CodeViewModel
 
 
@@ -14,7 +15,7 @@ fun MainScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .background(Colors.grayBackground)
     ) {
         CodeEditor(
             code = codeViewModel.code,
