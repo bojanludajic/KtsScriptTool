@@ -1,10 +1,7 @@
 package view
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
@@ -12,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import view.theme.Colors
 
 @Composable
 fun ExecutionBar(
@@ -29,7 +27,10 @@ fun ExecutionBar(
         ) {
             Button(
                 onClick = { onRun() },
-                enabled = !isRunning
+                enabled = !isRunning,
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Colors.terminalGreen
+                )
             ) {
                 Text("Run")
             }
@@ -39,7 +40,8 @@ fun ExecutionBar(
             if (isRunning) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(24.dp),
-                    strokeWidth = 2.dp
+                    strokeWidth = 2.dp,
+                    color = Colors.terminalGreen
                 )
             }
 
